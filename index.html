@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nagware Creator - Ethical Shareware Tool</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --primary: #6366f1; /* Indigo for a creator vibe */
+            --primary-dark: #4f46e5;
+            --header-bg: #0f172a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-bottom: 80px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--header-bg);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            border-bottom: 4px solid #334155;
+        }
+
+        .hero h1 {
+            font-family: "Courier New", monospace;
+            font-size: 3rem;
+            margin: 0 0 15px 0;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .hero strong { color: #fff; }
+
+        .badge {
+            background: #22c55e;
+            color: #000;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Main Grid */
+        .container {
+            max-width: 1200px;
+            margin: -40px auto 40px auto; /* Overlap hero */
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 0 20px;
+            position: relative; 
+            z-index: 2;
+        }
+
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; margin-top: 20px;}
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            color: var(--header-bg);
+        }
+
+        /* Inputs */
+        .form-group { margin-bottom: 20px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        
+        label {
+            display: block;
+            font-size: 0.85em;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #cbd5e1;
+            font-size: 14px;
+            box-sizing: border-box;
+            font-family: inherit;
+            transition: border 0.2s, box-shadow 0.2s;
+            background: #f8fafc;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        textarea { height: 90px; font-family: monospace; resize: vertical; line-height: 1.4; }
+
+        .color-group { display: flex; gap: 10px; }
+        input[type="color"] {
+            height: 42px; width: 50px; border: none; background: none; cursor: pointer;
+        }
+
+        /* Preview Box Styles */
+        .preview-wrapper { position: sticky; top: 20px; }
+
+        .preview-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+        }
+
+        .preview-header {
+            background: #f8fafc;
+            padding: 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .preview-content { padding: 25px; }
+
+        .preview-progress-track {
+            height: 12px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .preview-progress-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        /* Code Block */
+        .code-card {
+            background: #0f172a;
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            color: #94a3b8;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+
+        .tab-btn:hover { color: white; }
+
+        .tab-btn.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 6px;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        
+        .copy-btn:hover { background: var(--primary-dark); }
+        .copy-btn:active { transform: translateY(1px); }
+
+        #code-output {
+            width: 100%;
+            height: 220px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #e2e8f0;
+            font-family: "Menlo", "Monaco", "Courier New", monospace;
+            font-size: 12px;
+            padding: 15px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            line-height: 1.5;
+        }
+
+        /* Meta Popup (Tim's Nag) Styles - Injected */
+        #meta-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 99999;
+            display: none; /* Hidden by default */
+            justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .meta-box {
+            background: white; border-radius: 16px; width: 90%; max-width: 420px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden;
+            animation: popIn 0.3s ease-out;
+        }
+        @keyframes popIn { from {opacity:0; transform:scale(0.9)} to {opacity:1; transform:scale(1)}}
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>NAGWARE CREATOR</h1>
+        <p>
+            <strong>The ethical way to monetize free software.</strong><br><br>
+            No feature limits. No forced accounts. No tracking.<br>
+            Just a polite reminder that a <strong>human being</strong> made this.
+            <br>
+            <span class="badge">Reviving the Shareware Spirit</span>
+        </p>
+    </div>
+
+    <div class="container">
+        
+        <!-- LEFT COLUMN: WIZARD -->
+        <div class="card">
+            <h2>🛠 Customize Your Nag</h2>
+            
+            <p style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 25px;">
+                Works for student loans, server costs, coffee funds, or charity goals. The popup disappears automatically when the goal is reached.
+            </p>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Amount Remaining ($)</label>
+                    <input type="number" id="inp-balance" value="450.00">
+                </div>
+                <div class="form-group">
+                    <label>Total Goal Amount ($)</label>
+                    <input type="number" id="inp-start" value="1000.00">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Payment/Support Link</label>
+                <input type="text" id="inp-link" value="https://buymeacoffee.com/yourname">
+            </div>
+
+            <div class="form-group">
+                <label>Frequency (Days)</label>
+                <input type="number" id="inp-days" value="1">
+                <div style="font-size: 0.75em; color: var(--text-muted); margin-top: 5px;">
+                    1 = Users only see this once every 24 hours. Be polite!
+                </div>
+            </div>
+
+            <hr style="border:0; border-top:2px solid #f1f5f9; margin: 30px 0;">
+
+            <div class="form-group">
+                <label>Window Title</label>
+                <input type="text" id="inp-title" value="👋 Hello from the Developer">
+            </div>
+
+            <div class="form-group">
+                <label>Message (HTML allowed)</label>
+                <textarea id="inp-msg">I built this tool for free because I love solving problems. 🛠️<br><br>If you find it useful, please consider buying me a coffee to keep the servers running. ☕<br><br><strong>Once the goal is reached, this message disappears for everyone.</strong></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Primary Color</label>
+                    <div class="color-group">
+                        <input type="color" id="inp-col1-picker" value="#6366f1">
+                        <input type="text" id="inp-col1-text" value="#6366f1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Secondary Color</label>
+                    <div class="color-group">
+                        <input type="color" id="inp-col2-picker" value="#4f46e5">
+                        <input type="text" id="inp-col2-text" value="#4f46e5">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Support Button</label>
+                    <input type="text" id="inp-btn1" value="☕ Buy me a coffee">
+                </div>
+                <div class="form-group">
+                    <label>Close Button</label>
+                    <input type="text" id="inp-btn2" value="I'll support later">
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: PREVIEW & CODE -->
+        <div class="preview-wrapper">
+            
+            <h3 style="color:var(--text-muted); text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; margin-bottom:15px;">Live Preview</h3>
+
+            <!-- THE PREVIEW CARD -->
+            <div class="preview-box">
+                <div class="preview-header">
+                    <span id="prev-title">Title Here</span>
+                    <span style="color:#ccc">×</span>
+                </div>
+                <div class="preview-content">
+                    <p id="prev-msg" style="line-height: 1.6; color: #475569; margin-bottom:20px; font-size: 15px;"></p>
+                    
+                    <div class="preview-progress-track">
+                        <div id="prev-fill" class="preview-progress-fill"></div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 25px;">
+                        <span id="prev-paid">✅ Raised: $0</span>
+                        <span id="prev-left" style="color:#ef4444">📉 Need: $0</span>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button id="prev-btn1" style="flex: 1; border: none; padding: 12px; border-radius: 8px; font-weight: bold; color:white; cursor: default;">Pay</button>
+                        <button id="prev-btn2" style="flex: 1; background: #f1f5f9; color: #64748b; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: default;">Close</button>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align:center; font-size:0.8rem; color:#94a3b8; margin-top:-10px; margin-bottom: 30px;">
+                👆 This is exactly how it will look on your site.
+            </p>
+
+            <!-- CODE OUTPUT -->
+            <div class="code-card">
+                <div class="code-header">
+                    <div>
+                        <button class="tab-btn active" id="tab-readable" onclick="setTab('readable')">Readable</button>
+                        <button class="tab-btn" id="tab-minified" onclick="setTab('minified')">Minified</button>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+                </div>
+                <textarea id="code-output" readonly></textarea>
+                <p style="font-size:0.8rem; color:#94a3b8; margin-top:10px;">
+                    <strong>How to use:</strong> Copy the code above and paste it anywhere in your website's <code>&lt;body&gt;</code> tag.
+                </p>
+                <p style="font-size:0.8rem; color:#94a3b8;">
+                    <strong>To Update:</strong> Bookmark this page! When you get a donation, just come back, lower the "Remaining Amount", and update your site.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- META POPUP (Tim's Personal Nag) -->
+    <div id="meta-overlay">
+        <div class="meta-box">
+            <div style="background:#f8fafc; padding:15px 20px; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:800; color:#0f172a">👋 Student Loan Tracker 🎓</span>
+                <span id="meta-close" style="cursor:pointer; font-size:24px; color:#94a3b8">&times;</span>
+            </div>
+            <div style="padding:24px;">
+                <p style="color:#475569; lineHeight:1.6; margin-bottom:20px;">
+                    Hi! I built this <strong>Nagware Creator</strong> for free because I love retro software. 💾 <br><br>
+                    But... I also have student loans. 😅💸<br>
+                    If you use this tool, consider chipping in to help the balance go down.
+                </p>
+                
+                <div style="background:#e2e8f0; border-radius:12px; height:14px; margin-bottom:10px; overflow:hidden;">
+                    <!-- Hardcoded progress for Tim: 99812 left of 120000 -->
+                    <div style="height:100%; width: 16.8%; background: linear-gradient(90deg, #FFD700, #FFA500);"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:bold; color:#64748b; margin-bottom:25px;">
+                    <span>✅ Paid: $20,187</span>
+                    <span style="color:#ef4444">📉 Left: $99,812</span>
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    <a href="https://account.venmo.com/TimShangle" target="_blank" style="flex:1; background:#0ea5e9; color:white; text-decoration:none; padding:12px; border-radius:8px; text-align:center; font-weight:bold; font-size: 14px; transition: background 0.2s;">☕ Chip in via Venmo</a>
+                    <button id="meta-close-btn" style="flex:1; background:#f1f5f9; color:#64748b; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:bold; font-size: 14px;">I'll just use the tool</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. STATE MANAGEMENT ---
+        const defaultConfig = {
+            currentBalance: 450.00,
+            initialLoanAmount: 1000.00,
+            paymentLink: "https://buymeacoffee.com/yourname",
+            daysBetweenNags: 1,
+            title: "👋 Hello from the Developer",
+            message: "I built this tool for free because I love solving problems. 🛠️<br><br>If you find it useful, please consider buying me a coffee to keep the servers running. ☕<br><br><strong>Once the goal is reached, this message disappears for everyone.</strong>",
+            primaryColor: "#6366f1",
+            secondaryColor: "#4f46e5",
+            btnTextPrimary: "☕ Buy me a coffee",
+            btnTextSecondary: "I'll support later"
+        };
+
+        let config = { ...defaultConfig };
+        let currentTab = 'readable';
+
+        // --- 2. DOM ELEMENTS ---
+        const inputs = {
+            currentBalance: document.getElementById('inp-balance'),
+            initialLoanAmount: document.getElementById('inp-start'),
+            paymentLink: document.getElementById('inp-link'),
+            daysBetweenNags: document.getElementById('inp-days'),
+            title: document.getElementById('inp-title'),
+            message: document.getElementById('inp-msg'),
+            primaryColor: document.getElementById('inp-col1-text'),
+            primaryColorPicker: document.getElementById('inp-col1-picker'),
+            secondaryColor: document.getElementById('inp-col2-text'),
+            secondaryColorPicker: document.getElementById('inp-col2-picker'),
+            btnTextPrimary: document.getElementById('inp-btn1'),
+            btnTextSecondary: document.getElementById('inp-btn2'),
+        };
+
+        // --- 3. LOGIC ---
+
+        function loadFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            let hasParams = false;
+            
+            for (const key in config) {
+                if (params.has(key)) {
+                    hasParams = true;
+                    if (key.includes('Color') || key === 'paymentLink' || key === 'message' || key === 'title' || key.includes('btnText')) {
+                        config[key] = params.get(key);
+                    } else {
+                        config[key] = parseFloat(params.get(key));
+                    }
+                }
+            }
+
+            // Populate Inputs
+            inputs.currentBalance.value = config.currentBalance;
+            inputs.initialLoanAmount.value = config.initialLoanAmount;
+            inputs.paymentLink.value = config.paymentLink;
+            inputs.daysBetweenNags.value = config.daysBetweenNags;
+            inputs.title.value = config.title;
+            inputs.message.value = config.message;
+            inputs.primaryColor.value = config.primaryColor;
+            inputs.primaryColorPicker.value = config.primaryColor;
+            inputs.secondaryColor.value = config.secondaryColor;
+            inputs.secondaryColorPicker.value = config.secondaryColor;
+            inputs.btnTextPrimary.value = config.btnTextPrimary;
+            inputs.btnTextSecondary.value = config.btnTextSecondary;
+
+            updateAll();
+        }
+
+        function updateStateFromInputs(e) {
+            // Handle color picker syncing
+            if (e && e.target.type === 'color') {
+                const textInputId = e.target.id.replace('picker', 'text');
+                document.getElementById(textInputId).value = e.target.value;
+            } else if (e && e.target.type === 'text' && e.target.id.includes('col')) {
+                const pickerInputId = e.target.id.replace('text', 'picker');
+                document.getElementById(pickerInputId).value = e.target.value;
+            }
+
+            config.currentBalance = parseFloat(inputs.currentBalance.value) || 0;
+            config.initialLoanAmount = parseFloat(inputs.initialLoanAmount.value) || 0;
+            config.paymentLink = inputs.paymentLink.value;
+            config.daysBetweenNags = parseFloat(inputs.daysBetweenNags.value) || 1;
+            config.title = inputs.title.value;
+            config.message = inputs.message.value;
+            config.primaryColor = inputs.primaryColor.value;
+            config.secondaryColor = inputs.secondaryColor.value;
+            config.btnTextPrimary = inputs.btnTextPrimary.value;
+            config.btnTextSecondary = inputs.btnTextSecondary.value;
+
+            updateAll();
+        }
+
+        function updateAll() {
+            renderPreview();
+            renderCode();
+            updateURL();
+        }
+
+        function updateURL() {
+            const params = new URLSearchParams();
+            for (const key in config) {
+                params.set(key, config[key]);
+            }
+            window.history.replaceState({}, '', '?' + params.toString());
+        }
+
+        function renderPreview() {
+            const paid = config.initialLoanAmount - config.currentBalance;
+            let pct = (paid / config.initialLoanAmount) * 100;
+            if (pct < 0) pct = 0; if (pct > 100) pct = 100;
+
+            const fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+            document.getElementById('prev-title').innerText = config.title;
+            document.getElementById('prev-msg').innerHTML = config.message.replace(/\n/g, '<br>');
+            
+            const fill = document.getElementById('prev-fill');
+            fill.style.width = pct + '%';
+            fill.style.background = `linear-gradient(90deg, ${config.primaryColor}, ${config.secondaryColor})`;
+
+            document.getElementById('prev-paid').innerText = '✅ Raised: ' + fmt.format(paid);
+            document.getElementById('prev-left').innerText = '📉 Need: ' + fmt.format(config.currentBalance);
+
+            const btn1 = document.getElementById('prev-btn1');
+            btn1.innerText = config.btnTextPrimary;
+            btn1.style.background = config.primaryColor;
+
+            document.getElementById('prev-btn2').innerText = config.btnTextSecondary;
+        }
+
+        function renderCode() {
+            const isMin = currentTab === 'minified';
+            
+            // Clean up strings for JS injection
+            const safeTitle = config.title.replace(/"/g, '\\"');
+            const safeMsg = config.message.replace(/"/g, '\\"').replace(/\n/g, '<br>');
+
+            let code = `
+(function() {
+  var C = {
+    bal: ${config.currentBalance},
+    start: ${config.initialLoanAmount},
+    link: "${config.paymentLink}",
+    days: ${config.daysBetweenNags},
+    title: "${safeTitle}",
+    msg: "${safeMsg}",
+    col1: "${config.primaryColor}",
+    col2: "${config.secondaryColor}",
+    btn1: "${config.btnTextPrimary.replace(/"/g, '\\"')}",
+    btn2: "${config.btnTextSecondary.replace(/"/g, '\\"')}"
+  };
+
+  if(C.bal <= 0) return;
+  
+  var key = 'nag_' + encodeURIComponent(C.title).replace(/%/g,'');
+  var now = new Date().getTime();
+  var last = localStorage.getItem(key);
+  if(last && (now - last) < (C.days * 86400000)) return;
+
+  var css = '#n-ov{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;display:flex;justify-content:center;align-items:center;backdrop-filter:blur(4px);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}#n-box{background:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.3);width:90%;max-width:400px;overflow:hidden;animation:n-pop 0.3s ease-out}@keyframes n-pop{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}#n-head{background:#f8fafc;padding:18px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;font-weight:700;color:#1e293b}#n-x{cursor:pointer;font-size:20px;color:#94a3b8}#n-con{padding:25px}.n-txt{margin-bottom:20px;line-height:1.6;color:#475569;font-size:15px}.n-trk{background:#f1f5f9;height:12px;border-radius:6px;overflow:hidden;margin-bottom:10px;border:1px solid #e2e8f0}.n-fill{height:100%;background:linear-gradient(90deg, '+C.col1+', '+C.col2+');transition:width 1s}.n-stat{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#64748b;margin-bottom:25px}.n-acts{display:flex;gap:10px}.n-btn{flex:1;padding:12px;border-radius:8px;border:none;cursor:pointer;font-weight:bold;text-align:center;text-decoration:none;font-size:14px;transition:background 0.2s}.n-p{background:'+C.col1+';color:#fff}.n-p:hover{opacity:0.9}.n-s{background:#f1f5f9;color:#64748b}.n-s:hover{background:#e2e8f0;color:#334155}';
+  
+  var style = document.createElement('style');
+  style.innerText = css;
+  document.head.appendChild(style);
+
+  var div = document.createElement('div');
+  div.id = 'n-ov';
+  var paid = C.start - C.bal;
+  var pct = (paid / C.start) * 100;
+  if (pct < 0) pct = 0; if (pct > 100) pct = 100;
+  var fmt = new Intl.NumberFormat('en-US', {style:'currency',currency:'USD',maximumFractionDigits:0});
+
+  div.innerHTML = '<div id="n-box"><div id="n-head"><span>'+C.title+'</span><span id="n-x">&times;</span></div><div id="n-con"><div class="n-txt">'+C.msg+'</div><div class="n-trk"><div class="n-fill" style="width:'+pct+'%"></div></div><div class="n-stat"><span>✅ Raised: '+fmt.format(paid)+'</span><span style="color:#ef4444">📉 Need: '+fmt.format(C.bal)+'</span></div><div class="n-acts"><a href="'+C.link+'" target="_blank" class="n-btn n-p">'+C.btn1+'</a><button id="n-c" class="n-btn n-s">'+C.btn2+'</button></div></div></div>';
+  
+  document.body.appendChild(div);
+
+  function close(){ document.body.removeChild(div); localStorage.setItem(key, now); }
+  document.getElementById('n-c').onclick = close;
+  document.getElementById('n-x').onclick = close;
+})();
+            `;
+
+            if (isMin) {
+                // Simple minification regex
+                code = code.replace(/\s+/g, ' ').replace(/\s?=\s?/g, '=').replace(/\s?{\s?/g, '{').replace(/\s?}\s?/g, '}').trim();
+            }
+
+            document.getElementById('code-output').value = code;
+        }
+
+        function setTab(tab) {
+            currentTab = tab;
+            document.getElementById('tab-readable').className = tab === 'readable' ? 'tab-btn active' : 'tab-btn';
+            document.getElementById('tab-minified').className = tab === 'minified' ? 'tab-btn active' : 'tab-btn';
+            renderCode();
+        }
+
+        function copyCode() {
+            const ta = document.getElementById('code-output');
+            ta.select();
+            ta.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(ta.value).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.innerText;
+                btn.innerText = "Copied!";
+                setTimeout(() => btn.innerText = originalText, 2000);
+            });
+        }
+
+        // --- 4. META POPUP (TIM'S NAG) LOGIC ---
+        function showMetaNag() {
+            const overlay = document.getElementById('meta-overlay');
+            const close = () => overlay.style.display = 'none';
+            document.getElementById('meta-close').onclick = close;
+            document.getElementById('meta-close-btn').onclick = close;
+            
+            // Show after 2 seconds
+            setTimeout(() => {
+                overlay.style.display = 'flex';
+            }, 2000);
+        }
+
+        // --- INIT ---
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('input', updateStateFromInputs);
+        });
+        
+        loadFromURL();
+        showMetaNag();
+
+    </script>
+</body>
+</html>
+
