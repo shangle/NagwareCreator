@@ -6,7 +6,7 @@
         currentBalance: 99812.27, 
         initialLoanAmount: 120000.00, 
         paymentLink: "https://account.venmo.com/TimShangle",
-        daysBetweenNags: 1, 
+        daysBetweenNags: 7, 
     };
 
     // ==========================================
