@@ -2,7 +2,7 @@
 
 **Reviving the Spirit of Shareware.**
 
-[Live Demo](https://your-username.github.io/nagware-creator) <!-- Update this link after hosting -->
+[Live Demo](https://shangle.me/NagwareCreator/) <!-- Update this link after hosting -->
 
 The **Nagware Creator** is a zero-dependency tool that generates "ethical nagware" for your websites and web apps. It allows developers to monetize free software by politely reminding users that a human being made the tool, without locking features behind paywalls or subscriptions.
 
